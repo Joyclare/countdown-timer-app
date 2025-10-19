@@ -1,45 +1,60 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login({ onLogin }) {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+function Login({ setIsLoggedIn }) {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (username.trim() && password.trim()) {
-      onLogin() // move to the next page
-    } else {
-      alert('Please enter both username and password.')
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    // Simple validation
+    if (email.trim() === "" || password.trim() === "") {
+      alert("Please enter your email and password!");
+      return;
     }
-  }
+
+    // You can add authentication logic here
+    setIsLoggedIn(true);
+    navigate("/home");
+  };
 
   return (
-    <div className="bg-white text-gray-800 p-8 rounded-2xl shadow-2xl w-80">
-      <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-        />
-        <button
-          type="submit"
-          className="bg-indigo-500 text-white py-2 rounded-lg hover:bg-indigo-600 transition duration-200"
-        >
-          Login
-        </button>
-      </form>
+    <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center">
+      <div className="bg-gray-100 p-8 rounded-xl shadow-md w-80 text-center">
+        <div className="mb-6">
+          <div className="w-16 h-16 mx-auto bg-black rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 border-t-4 border-white rounded-full animate-spin"></div>
+          </div>
+          <h1 className="text-lg font-semibold mt-3">Countdown Timer App</h1>
+        </div>
+
+        <form onSubmit={handleLogin} className="flex flex-col space-y-4">
+          <input
+            type="text"
+            placeholder="Email or Username"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="p-2 border rounded-md"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="p-2 border rounded-md"
+          />
+          <button
+            type="submit"
+            className="bg-purple-400 hover:bg-purple-500 text-white font-semibold py-2 rounded-md"
+          >
+            LOGIN
+          </button>
+        </form>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;
